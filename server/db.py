@@ -17,6 +17,11 @@ def add_user_group(user, group_id):
         {"$set": {"username": user.username},
          "$addToSet": {"groups": group_id}}, upsert=True)
 
+def remove_user_group(user, group_id):
+    users.update_one(
+        {"user_id": user.id},
+        {"$pull": {"groups": group_id}})
+
 
 def get_user_groups(user_id):
     try:

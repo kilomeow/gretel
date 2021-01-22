@@ -20,6 +20,9 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 def hello(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id,
                              text="Привет! Это Гретель! В случае неприятной ситуации я удалю вас из всех чатов, где вы отметились. Используйте команду /checkin в чате чтобы вас запомнили, команду /sos чтобы удалиться из всех чатов и команду /kick @username чтобы удалить друг_ую учатни_цу чата")
+
+def start(update, context):
+    hello(update, context)
     db.meet_user(update.message.from_user)
 
 
@@ -27,23 +30,31 @@ def is_admin(chat):
     botadmin = next(filter(lambda d: d.user.id == config.bot_id, chat.get_administrators()), None)
     return botadmin and botadmin.can_restrict_members
     
+def is_supergroup(chat):
+    return chat.type == "supergroup"
+
+def check_functionality(chat):
+    msg = []
+    if not is_admin(chat):
+        msg.append("Для функционирования я должна быть *администратором* с правом *бана*.")
+    if not is_supergroup(chat):
+        msg.append("Чтобы я могла удалять пользователей, это должна быть *супергруппа*.")
+    if msg:
+        bot.send_message(chat_id=chat.id, text=" ".join(msg), parse_mode="Markdown")
 
 def check_in(update, context):
     user = update.message.from_user
     hide(user, update)
-    if not is_admin(update.effective_chat):
-        bot.send_message(chat_id=update.effective_chat.id,
-        text="Но для этого мне нужны *права администратора*",
-        parse_mode="Markdown")
+    check_functionality(update.effective_chat)
 
 
 def new_users(update, context):
     for user in update.message.new_chat_members:
-        hide(user, update)
-    if not is_admin(update.effective_chat):
-        bot.send_message(chat_id=update.effective_chat.id,
-        text="Но для этого мне нужны *права администратора*",
-        parse_mode="Markdown")
+        if user.id == config.bot_id:
+            hello(update, context)
+        else:
+            hide(user, update)
+    check_functionality(update.effective_chat)
 
 
 def hide(user, update):
@@ -55,8 +66,11 @@ def hide(user, update):
 def sos_message(update, context):
     update.message.reply_text("Поняла! Не переживай")
     remove_user(update.message.from_user.id)
-    update.message.reply_text("Вы надежно спрятаны!")
-
+    try:
+        bot.send_message(chat_id=update.message.from_user.id,
+                         text="Вы в домике!")
+    except:
+        pass
 
 def kick(update, context):
     usernames = list()
@@ -66,7 +80,6 @@ def kick(update, context):
     users = list()
     not_found_usernames = list()
     for un in usernames:
-        print(db.get_user_id(un))
         try:
             uid = db.get_user_id(un)
         except:
@@ -81,22 +94,31 @@ def kick(update, context):
 def remove_user(user_id):
     for group_id in db.get_user_groups(user_id):
         try:
-            user = bot.get_chat_member(group_id, user_id).user
+            cm = bot.get_chat_member(group_id, user_id)
+            user = cm.user
+            chat = bot.get_chat(group_id)
         except:
-            # no such user in chat
+            # no such user in chat, could not access chat etc...
             pass
         else:
-            try:
-                bot.unban_chat_member(group_id, user_id)
-            except:
-                bot.send_message(chat_id=group_id, 
-                                 text=f"Не могу удалить @{user.username} :C")
-            else:
-                bot.send_message(chat_id=group_id,
-                                 text=f"@{user.username} в домике!")
+            if not cm["status"] == "left":
+                try:
+                    bot.unban_chat_member(group_id, user_id)
+                except Exception as e:
+                    try:
+                        bot.send_message(chat_id=group_id, 
+                                     text=f"От @{user.username} поступил сигнал тревоги, но я не могу удалить! :C Сделайте это вручную")
+                    except:
+                        # ?? could not send message to this chat
+                        db.remove_user_group(user, group_id)
+                    else:
+                        check_functionality(chat)
+                else:
+                    bot.send_message(chat_id=group_id,
+                                     text=f"@{user.username} в домике!")
 
 
-dp.add_handler(CommandHandler('start', hello))
+dp.add_handler(CommandHandler('start', start))
 dp.add_handler(CommandHandler('checkin', check_in))
 dp.add_handler(CommandHandler('sos', sos_message))
 dp.add_handler(CommandHandler('kick', kick))
