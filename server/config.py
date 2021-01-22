@@ -1,4 +1,5 @@
 with open('bot_config') as cfg:
-    name, proxy, token = map(lambda s: s.rstrip(' \n'),
-                       cfg.readlines()[:3])
+    proxy, token = map(lambda s: s.rstrip(' \n'),
+                       cfg.readlines()[:2])
+    bot_id = int(token.split(":")[0])
 
