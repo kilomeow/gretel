@@ -19,7 +19,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 # приветственное сообщение
 def hello(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id,
-                             text="Привет! Это Гретель! В случае неприятной ситуации я удалю вас из всех чатов, где вы отметились. Используйте команду /checkin в чате чтобы вас запомнили, команду /sos чтобы удалиться из всех чатов и команду /kick @username чтобы удалить друг_ую учатни_цу чата")
+                             text="Привет! Это Гретель! В случае неприятной ситуации я удалю вас из всех чатов, где вы отметились. Используйте команду /checkin в чате чтобы вас запомнили, команду /sos чтобы удалиться из всех чатов и команду /hide @username чтобы скрыть друг_ую учатни_цу")
 
 def start(update, context):
     hello(update, context)
@@ -72,7 +72,7 @@ def sos_message(update, context):
     except:
         pass
 
-def kick(update, context):
+def hide(update, context):
     usernames = list()
     for mention in filter(lambda e: e["type"] == "mention",
                           update.message.entities):
@@ -121,7 +121,7 @@ def remove_user(user_id):
 dp.add_handler(CommandHandler('start', start))
 dp.add_handler(CommandHandler('checkin', check_in))
 dp.add_handler(CommandHandler('sos', sos_message))
-dp.add_handler(CommandHandler('kick', kick))
+dp.add_handler(CommandHandler('hide', hide))
 dp.add_handler(MessageHandler(Filters.status_update.new_chat_members, new_users))
 
 def main():
