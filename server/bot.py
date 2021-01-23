@@ -44,7 +44,7 @@ def check_functionality(chat):
 
 def check_in(update, context):
     user = update.message.from_user
-    hide(user, update)
+    remember(user, update)
     check_functionality(update.effective_chat)
 
 
@@ -53,11 +53,11 @@ def new_users(update, context):
         if user.id == config.bot_id:
             hello(update, context)
         else:
-            hide(user, update)
+            remember(user, update)
     check_functionality(update.effective_chat)
 
 
-def hide(user, update):
+def remember(user, update):
     db.add_user_group(user, update.effective_chat.id)
     update.message.reply_text(f"В случае опасности я спрячу *{user.username}*!",
     parse_mode="Markdown")
