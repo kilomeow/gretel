@@ -174,7 +174,7 @@ def invite(update, context):
     users = parse_mentions(update.message)
     if users["not_found"]:
         update.message.reply_text(f"Я не знаю {', '.join(map(lambda n: '@'+n, users['not_found']))} :C")
-    for un, uid in users['id'].items(): return_to_chat(update.effective_chat, un, uid)
+    for un, uid in users['id'].items(): return_to_chat(bot.get_chat(update.effective_chat.id), un, uid)
 
 
 def echo(update, context):
