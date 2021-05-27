@@ -196,7 +196,7 @@ def echo(update, context):
 def beer(update, context):
     update.message.reply_text("🍺")
 
-dp.add_handler(commandhandler('pivo', beer))
+dp.add_handler(CommandHandler('pivo', beer))
 
 
 dp.add_handler(CommandHandler('start', start))
