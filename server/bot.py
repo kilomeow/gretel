@@ -1,5 +1,5 @@
 # создаем телеграм бота
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, commandhandler
 from telegram import Bot, ReplyKeyboardMarkup, KeyboardButton
 from telegram.utils.request import Request
 
@@ -189,6 +189,14 @@ def echo(update, context):
                                  text = " ".join(text.split(" ")[2:]))
             except:
                 pass
+
+
+# easter egg
+
+def beer(update, context):
+    update.message.reply_text("🍺")
+
+dp.add_handler(commandhandler('pivo', beer))
 
 
 dp.add_handler(CommandHandler('start', start))
