@@ -1,22 +1,28 @@
- 
-version: '3'
+version: '3.8'
+
+secrets:
+  bot_config:
+    file: bot_config
+
 services:
-  gretel:
+  bot:
     build:
-      context: server 
-      dockerfile: Dockerfile
+      context: ../server
+      dockerfile: ../docker/Dockerfile
     restart: unless-stopped
+    secrets:
+      - bot_config
     environment:
       TZ: Europe/Moscow
     links:
       - mongodb
   
   mongodb:
-    image: mongo:latest
+    image: mongo:5.0
     restart: unless-stopped
     environment:
       MONGODB_DATA_DIR: /data/db
       MONDODB_LOG_DIR: /dev/null
       TZ: Europe/Moscow
     volumes:
-      - ./mongodb/data:/data/db
+      - ../mongodb/data:/data/db
