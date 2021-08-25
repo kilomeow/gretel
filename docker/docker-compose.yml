@@ -1,11 +1,11 @@
-version: '3.9'
+version: '3.8'
 
 secrets:
   bot_config:
     file: bot_config
 
 services:
-  telegram-bot:
+  bot:
     build:
       context: ../server
       dockerfile: ../docker/Dockerfile
@@ -25,4 +25,4 @@ services:
       MONDODB_LOG_DIR: /dev/null
       TZ: Europe/Moscow
     volumes:
-      - ./mongodb/data:/data/db
+      - ../mongodb/data:/data/db
