@@ -3,6 +3,10 @@ version: '3.8'
 secrets:
   gretel_config:
     file: gretel_config
+  doxa_ovd_config:
+    file: doxa_ovd_config
+  doxa_bot_config:
+    file: doxa_bot_config
 
 services:
   gretel:
@@ -16,7 +20,31 @@ services:
       TZ: Europe/Moscow
     links:
       - mongodb
-  
+
+  doxa_bot:
+    build:
+      context: ..
+      dockerfile: docker/doxa_bot.Dockerfile
+    restart: unless-stopped
+    secrets:
+      - doxa_bot_config
+    environment:
+      TZ: Europe/Moscow
+    links:
+      - mongodb
+
+  doxa_ovd:
+    build:
+      context: ..
+      dockerfile: docker/doxa_ovd.Dockerfile
+    restart: unless-stopped
+    secrets:
+      - doxa_ovd_config
+    environment:
+      TZ: Europe/Moscow
+    links:
+      - mongodb
+
   mongodb:
     image: mongo:5.0
     restart: unless-stopped
