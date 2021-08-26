@@ -1,17 +1,17 @@
 version: '3.8'
 
 secrets:
-  bot_config:
-    file: bot_config
+  gretel_config:
+    file: gretel_config
 
 services:
-  bot:
+  gretel:
     build:
-      context: ../server
-      dockerfile: ../docker/Dockerfile
+      context: ..
+      dockerfile: docker/gretel.Dockerfile
     restart: unless-stopped
     secrets:
-      - bot_config
+      - gretel_config
     environment:
       TZ: Europe/Moscow
     links:
