@@ -1,4 +1,5 @@
 __pycache__
+.venv
 venv
 mongodb
 docker/gretel_config
