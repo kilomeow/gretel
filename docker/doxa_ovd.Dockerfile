@@ -11,6 +11,8 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 COPY doxa_ovd/requirements.txt /tmp/requirements.txt
 RUN pip install --upgrade pip -r /tmp/requirements.txt
 
+ENV BOT_NAME="doxa_ovd"
+
 # Switching to an unprivileged user
 RUN useradd --create-home doxa_ovd
 USER doxa_ovd
