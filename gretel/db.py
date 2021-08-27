@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 
 
-client = MongoClient('mongodb://172.20.0.2:27017/')
+client = MongoClient('mongodb://gretel_db:27017/')
 
 users = client.gretel_bot.users
 

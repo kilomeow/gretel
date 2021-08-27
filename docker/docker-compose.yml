@@ -19,7 +19,17 @@ services:
     environment:
       TZ: Europe/Moscow
     links:
-      - mongodb
+      - gretel_db
+
+  gretel_db:
+    image: mongo:5.0
+    restart: unless-stopped
+    environment:
+      MONGODB_DATA_DIR: /data/db
+      MONDODB_LOG_DIR: /dev/null
+      TZ: Europe/Moscow
+    volumes:
+      - ../db/gretel/data:/data/db
 
   doxa_bot:
     build:
@@ -31,7 +41,17 @@ services:
     environment:
       TZ: Europe/Moscow
     links:
-      - mongodb
+      - doxa_bot_db
+
+  doxa_bot_db:
+    image: mongo:5.0
+    restart: unless-stopped
+    environment:
+      MONGODB_DATA_DIR: /data/db
+      MONDODB_LOG_DIR: /dev/null
+      TZ: Europe/Moscow
+    volumes:
+      - ../db/doxa_bot/data:/data/db
 
   doxa_ovd:
     build:
@@ -43,9 +63,9 @@ services:
     environment:
       TZ: Europe/Moscow
     links:
-      - mongodb
+      - doxa_ovd_db
 
-  mongodb:
+  doxa_ovd_db:
     image: mongo:5.0
     restart: unless-stopped
     environment:
@@ -53,4 +73,4 @@ services:
       MONDODB_LOG_DIR: /dev/null
       TZ: Europe/Moscow
     volumes:
-      - ../mongodb/data:/data/db
+      - ../db/doxa_ovd/data:/data/db

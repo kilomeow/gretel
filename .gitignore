@@ -1,6 +1,6 @@
 __pycache__
 .venv
 venv
-mongodb
+db
 doxa_ovd
 docker/*_config
