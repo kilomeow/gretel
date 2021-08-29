@@ -1,5 +1,5 @@
 # создаем телеграм бота
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, commandhandler
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from telegram import Bot, ReplyKeyboardMarkup, KeyboardButton
 from telegram.utils.request import Request
 
@@ -200,6 +200,8 @@ def beer(update, context):
 
 dp.add_handler(CommandHandler('pivo', beer))
 
+acab_melon_photo = "AgACAgIAAxkBAAIJhGEr7j1yicU__V3SW5JRW5q3OBCEAAJHtjEb3wdgSdrocQ2F2xSiAQADAgADcwADIAQ"
+
 def melon(update, context):
 
     # take cmd arg
@@ -218,16 +220,17 @@ def melon(update, context):
         amount = 1
 
     # send water melons
-    if amount >= 8:
-        update.message.reply_text('🍈')
+    if amount == 1312:
+        bot.send_photo(update.effective_chat.id, acab_melon_photo)
+    elif amount >= 8:
+        bot.send_message(chat_id=update.effective_chat.id, text='🍈')
     else:
         for i in reversed(range(amount)):
-            update.message.reply_text('🍉')
+            bot.send_message(chat_id=update.effective_chat.id, text='🍉')
             if i: time.sleep(0.3)
 
     
 dp.add_handler(CommandHandler('arbuz', melon))
-    
 
 dp.add_handler(CommandHandler('start', start))
 dp.add_handler(CommandHandler('checkin', check_in))
