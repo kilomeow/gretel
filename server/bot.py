@@ -5,6 +5,8 @@ from telegram.utils.request import Request
 
 import config, db
 
+import time
+
 req = Request(proxy_url=config.proxy) if config.proxy else Request()
 bot = Bot(config.token, request=req)
 upd = Updater(bot=bot, use_context=True)
@@ -198,6 +200,34 @@ def beer(update, context):
 
 dp.add_handler(CommandHandler('pivo', beer))
 
+def melon(update, context):
+
+    # take cmd arg
+    arg = (update.message.text + ' ').split(' ', 1)[-1]
+    arg = arg.rstrip()
+
+    # parse amount (1 if no argument)
+    if arg:
+        try:
+            amount = int(arg)
+            if amount < 0: raise ValueError
+        except ValueError:
+            update.message.reply_text('Некорректный аргумент')
+            return
+    else:
+        amount = 1
+
+    # send water melons
+    if amount >= 8:
+        update.message.reply_text('🍈')
+    else:
+        for i in reversed(range(amount)):
+            update.message.reply_text('🍉')
+            if i: time.sleep(0.3)
+
+    
+dp.add_handler(CommandHandler('arbuz', melon))
+    
 
 dp.add_handler(CommandHandler('start', start))
 dp.add_handler(CommandHandler('checkin', check_in))
