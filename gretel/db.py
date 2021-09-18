@@ -1,7 +1,8 @@
 from pymongo import MongoClient
 
+from config import mongo_db_url
 
-client = MongoClient('mongodb://gretel_db:27017/')
+client = MongoClient(mongo_db_url)
 
 users = client.gretel_bot.users
 
