@@ -1,9 +1,11 @@
 # создаем телеграм бота
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, commandhandler
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from telegram import Bot, ReplyKeyboardMarkup, KeyboardButton
 from telegram.utils.request import Request
 
 import config, db
+
+import time
 
 req = Request(proxy_url=config.proxy) if config.proxy else Request()
 bot = Bot(config.token, request=req)
@@ -198,6 +200,37 @@ def beer(update, context):
 
 dp.add_handler(CommandHandler('pivo', beer))
 
+acab_melon_photo = "AgACAgIAAxkBAAIJhGEr7j1yicU__V3SW5JRW5q3OBCEAAJHtjEb3wdgSdrocQ2F2xSiAQADAgADcwADIAQ"
+
+def melon(update, context):
+
+    # take cmd arg
+    arg = (update.message.text + ' ').split(' ', 1)[-1]
+    arg = arg.rstrip()
+
+    # parse amount (1 if no argument)
+    if arg:
+        try:
+            amount = int(arg)
+            if amount < 0: raise ValueError
+        except ValueError:
+            update.message.reply_text('Некорректный аргумент')
+            return
+    else:
+        amount = 1
+
+    # send water melons
+    if amount == 1312:
+        bot.send_photo(update.effective_chat.id, acab_melon_photo)
+    elif amount >= 8:
+        bot.send_message(chat_id=update.effective_chat.id, text='🍈')
+    else:
+        for i in reversed(range(amount)):
+            bot.send_message(chat_id=update.effective_chat.id, text='🍉')
+            if i: time.sleep(0.3)
+
+    
+dp.add_handler(CommandHandler('arbuz', melon))
 
 dp.add_handler(CommandHandler('start', start))
 dp.add_handler(CommandHandler('checkin', check_in))

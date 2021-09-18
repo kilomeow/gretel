@@ -28,7 +28,7 @@ services:
     image: mongo:5.0
     restart: unless-stopped
     environment:
-      MONGODB_DATA_DIR: /data/gretel_db
+      MONGODB_DATA_DIR: /data/db
       MONDODB_LOG_DIR: /dev/null
       TZ: Europe/Moscow
     volumes:
@@ -54,7 +54,7 @@ services:
     image: mongo:5.0
     restart: unless-stopped
     environment:
-      MONGODB_DATA_DIR: /data/doxa_bot_db
+      MONGODB_DATA_DIR: /data/db
       MONDODB_LOG_DIR: /dev/null
       TZ: Europe/Moscow
     volumes:
@@ -80,7 +80,7 @@ services:
     image: mongo:5.0
     restart: unless-stopped
     environment:
-      MONGODB_DATA_DIR: /data/doxa_ovd_db
+      MONGODB_DATA_DIR: /data/db
       MONDODB_LOG_DIR: /dev/null
       TZ: Europe/Moscow
     volumes:
