@@ -87,3 +87,8 @@ services:
       - ../db/doxa_ovd/data:/data/db
     networks:
       - doxa_ovd
+
+networks:
+  gretel:
+  doxa_bot:
+  doxa_ovd:
