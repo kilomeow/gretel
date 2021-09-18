@@ -20,6 +20,9 @@ services:
       TZ: Europe/Moscow
     links:
       - gretel_db
+    networks:
+      - gretel
+
 
   gretel_db:
     image: mongo:5.0
@@ -30,6 +33,8 @@ services:
       TZ: Europe/Moscow
     volumes:
       - ../db/gretel/data:/data/db
+    networks:
+      - gretel
 
   doxa_bot:
     build:
@@ -42,6 +47,8 @@ services:
       TZ: Europe/Moscow
     links:
       - doxa_bot_db
+    networks:
+      - doxa_bot
 
   doxa_bot_db:
     image: mongo:5.0
@@ -52,6 +59,8 @@ services:
       TZ: Europe/Moscow
     volumes:
       - ../db/doxa_bot/data:/data/db
+    networks:
+      - doxa_bot
 
   doxa_ovd:
     build:
@@ -64,6 +73,8 @@ services:
       TZ: Europe/Moscow
     links:
       - doxa_ovd_db
+    networks:
+      - doxa_ovd
 
   doxa_ovd_db:
     image: mongo:5.0
@@ -74,3 +85,5 @@ services:
       TZ: Europe/Moscow
     volumes:
       - ../db/doxa_ovd/data:/data/db
+    networks:
+      - doxa_ovd
