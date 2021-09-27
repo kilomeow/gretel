@@ -9,8 +9,9 @@
 
 ## Команда
 
-+ Идея, тестирование и хостинг – [Natasha Tysh](https://github.com/ntysh)
++ Идея и тестирование – [Natasha Tysh](https://github.com/ntysh)
 + Разработка и нарративный дизайн – [Kilomeow](https://github.com/kilomeow)
++ Cистемное администрирование – [Alice Yudina](https://github.com/RayChimera) 
 
 ## История идеи
 
