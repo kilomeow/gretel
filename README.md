@@ -21,4 +21,4 @@
 
 Если вам понравился бот – мы предлагаем вам [перевести деньги DOXA](https://doxajournal.ru/donate), независимому университетскому медиа.
 
-Вы также можете поддержать разрботчиков напрямую: BTC `bc1qa869f77738mefx30r6d23v0s7seh7qxktjnn8q`
+Вы также можете поддержать разрботчиков напрямую: BTC `zpub6oQ5iLfMrCNJZyAZxWZytm9m1CFc5bJh1tfDoZy72aKj2zc4CvnE9RxYfxtqoXumSq73sRSX8CrgZTZpj5jqBX8XUMaF27hCUwbSdvqgYJk`
