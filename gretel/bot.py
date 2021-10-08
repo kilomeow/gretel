@@ -7,8 +7,7 @@ import config, db
 
 import time
 
-req = Request(proxy_url=config.proxy) if config.proxy else Request()
-bot = Bot(config.token, request=req)
+bot = Bot(config.token)
 upd = Updater(bot=bot, use_context=True)
 dp = upd.dispatcher
 
