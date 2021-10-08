@@ -1,6 +1,6 @@
 # создаем телеграм бота
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-from telegram import Bot, ReplyKeyboardMarkup, KeyboardButton
+from telegram import Bot
 from telegram.utils.request import Request
 
 import config, db
