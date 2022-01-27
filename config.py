@@ -1,7 +1,7 @@
 import os
 import json
 
-config_path = os.environ('GRETEL_CONFIG_FILE')
+config_path = os.environ.get('GRETEL_CONFIG_FILE')
 if config_path is None: config_path = '/run/secrets/gretel_config'
 
 with json.load(config_path) as data:
