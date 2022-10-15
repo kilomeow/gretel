@@ -187,7 +187,6 @@ def batch_invite(update, context):
     if users["not_found"]:
         update.message.reply_text(f"Я не знаю {', '.join(map(lambda n: '@'+n, users['not_found']))} :C")
     for un, uid in users['id'].items():
-        print(db.get_user_groups(uid))
         for group_id in db.get_user_groups(uid):
             return_to_chat(bot.get_chat(group_id), un, uid)
 
