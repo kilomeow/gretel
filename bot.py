@@ -156,13 +156,14 @@ def remove_user(user_id):
 
 def return_to_chat(chat, un, uid):
     link = chat.invite_link
+    chat_name = chat.title
     if not link:
         bot.send_message(chat_id=chat.id,
                          text=f"В вашем чате нет пригласительной ссылки, верните @{un} вручную!")
     else:
         try:
             bot.send_message(chat_id=uid,
-                             text=f"Возвращайся обратно! {link}")
+                             text=f"Возвращайся обратно в {chat_name}! {link}")
         except:
             bot.send_message(chat_id=chat.id,
                              text=f"Не удалось отправить приглашение @{un}, пришлите вручную ссылку: f{link}")
@@ -176,6 +177,18 @@ def invite(update, context):
     if users["not_found"]:
         update.message.reply_text(f"Я не знаю {', '.join(map(lambda n: '@'+n, users['not_found']))} :C")
     for un, uid in users['id'].items(): return_to_chat(bot.get_chat(update.effective_chat.id), un, uid)
+
+
+def batch_invite(update, context):
+    compose_functionality_message(
+        check_functionality(update.effective_chat),
+        update.effective_chat)
+    users = parse_mentions(update.message)
+    if users["not_found"]:
+        update.message.reply_text(f"Я не знаю {', '.join(map(lambda n: '@'+n, users['not_found']))} :C")
+    for un, uid in users['id'].items():
+        for group_id in db.get_user_groups(uid):
+            return_to_chat(bot.get_chat(group_id), un, uid)
 
 
 def echo(update, context):
@@ -237,6 +250,7 @@ dp.add_handler(CommandHandler('sos', sos_message))
 dp.add_handler(CommandHandler('hide', hide))
 dp.add_handler(MessageHandler(Filters.status_update.new_chat_members, new_users))
 dp.add_handler(CommandHandler('invite', invite))
+dp.add_handler(CommandHandler('batch_invite', batch_invite))
 dp.add_handler(CommandHandler('echo', echo))
 
 def main():
